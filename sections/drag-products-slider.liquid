@@ -7,64 +7,91 @@
   .quality-products {
     background-color: {{ section.settings.background_color }};
     padding: {{ section.settings.section_padding_top }}px 0 {{ section.settings.section_padding_bottom }}px;
+    overflow: hidden;
+    position: relative;
   }
+
+  /* ---------------- HEADER ---------------- */
 
   .quality-products__header {
     text-align: {{ section.settings.header_alignment }};
     max-width: {{ section.settings.header_max_width }}px;
-    /* margin: 0 auto {{ section.settings.header_bottom_gap }}px; */
     margin: 0 auto 100px;
-    padding: 0 ;
   }
-  
+
   .quality-products__title {
-      font-weight: 400;
-      font-size: 56px;
-      line-height: 72px;
-      letter-spacing: -1px;
-      text-align: center;
-     height: 92px;
+    font-weight: 400;
+    font-size: 56px;
+    line-height: 72px;
+    letter-spacing: -1px;
+    text-align: center;
   }
+
+  .quality-products__description {
+    text-align: center;
+  }
+
+  /* ---------------- SLIDER ---------------- */
 
   .quality-products__slider-wrapper {
+    width: 100%;
     position: relative;
-    padding: 0 {{ section.settings.slider_side_padding }}px;
   }
 
-  .quality-products__slider {
-    display: flex;
-    gap: {{ section.settings.card_gap }}px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
+  .quality-products__viewport {
+    width: 100%;
+    overflow: hidden;
     cursor: grab;
-    padding-bottom: 16px;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    padding: 80px 0;
   }
 
-  .quality-products__slider::-webkit-scrollbar {
-    display: none;
-  }
-
-  .quality-products__slider.is-dragging {
+  .quality-products__viewport:active {
     cursor: grabbing;
-    scroll-snap-type: none;
-    user-select: none;
   }
+
+  .quality-products__track {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    width: max-content;
+    will-change: transform;
+  }
+
+  /* ---------------- CARD ---------------- */
 
   .quality-products__card {
-    flex: 0 0 {{ section.settings.card_width }}px;
-    scroll-snap-align: start;
-    background: {{ section.settings.card_background }};
-    border-radius: {{ section.settings.card_border_radius }}px;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 340px;
+    flex-shrink: 0;
+    margin: 0 -70px;
+    position: relative;
   }
 
-  .quality-products__card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+  .quality-products__viewport {
+     perspective: 1500px;
+     }
+
+     .quality-products__card.prev .quality-products__card-inner {
+          transform:
+          rotate(-10deg)
+          scale(.88)
+          translateZ(-100px);
+          }
+
+          .quality-products__card.next .quality-products__card-inner {
+          transform:
+          rotate(10deg)
+          scale(.88)
+          translateZ(-100px);
+          }
+
+  .quality-products__card-inner {
+    background: #fff;
+    padding: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+
+   transition:
+     transform .45s cubic-bezier(.22,.61,.36,1),
+     opacity .45s cubic-bezier(.22,.61,.36,1);
   }
 
   .quality-products__card-image-wrap {
@@ -72,10 +99,21 @@
     overflow: hidden;
   }
 
-  .quality-products__card-image-wrap--square   { aspect-ratio: 1 / 1; }
-  .quality-products__card-image-wrap--portrait  { aspect-ratio: 3 / 4; }
-  .quality-products__card-image-wrap--landscape { aspect-ratio: 4 / 3; }
-  .quality-products__card-image-wrap--tall      { aspect-ratio: 2 / 3; }
+  .quality-products__card-image-wrap--square {
+    aspect-ratio: 1 / 1;
+  }
+
+  .quality-products__card-image-wrap--portrait {
+    aspect-ratio: 3 / 4;
+  }
+
+  .quality-products__card-image-wrap--landscape {
+    aspect-ratio: 4 / 3;
+  }
+
+  .quality-products__card-image-wrap--tall {
+    aspect-ratio: 2 / 3;
+  }
 
   .quality-products__card-image-wrap img,
   .quality-products__card-image-wrap .placeholder-svg {
@@ -83,24 +121,19 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.5s ease;
-  }
-
-  .quality-products__card:hover .quality-products__card-image-wrap img {
-    transform: scale(1.04);
   }
 
   .quality-products__card-body {
-    padding: {{ section.settings.card_inner_padding }}px;
+    padding-top: 20px;
   }
 
   .quality-products__card-type {
     font-family: var(--font-body-family);
     font-size: 11px;
-    letter-spacing: 0.1em;
+    letter-spacing: .1em;
     text-transform: uppercase;
     color: {{ section.settings.card_type_color }};
-    margin: 0 0 8px;
+    margin-bottom: 8px;
   }
 
   .quality-products__card-heading {
@@ -108,7 +141,7 @@
     font-size: {{ section.settings.card_heading_size }}px;
     font-weight: var(--font-heading-weight);
     color: {{ section.settings.card_heading_color }};
-    margin: 0 0 10px;
+    margin-bottom: 10px;
     line-height: 1.3;
   }
 
@@ -117,16 +150,50 @@
     font-size: {{ section.settings.card_desc_size }}px;
     color: {{ section.settings.card_desc_color }};
     line-height: 1.6;
-    margin: 0;
   }
 
-  /* ── Mobile ── */
+  /* ---------------- STATES ---------------- */
+
+  .quality-products__card.prev .quality-products__card-inner {
+    transform: rotate(-10deg) scale(.9);
+    /* opacity: .8; */
+  }
+
+  .quality-products__card.active .quality-products__card-inner {
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+    z-index: 2;
+  }
+
+  .quality-products__card.next .quality-products__card-inner {
+    transform: rotate(10deg) scale(.9);
+    /* opacity: .8; */
+  }
+
+  .quality-products__card:not(.active):not(.prev):not(.next) {
+    opacity: .4;
+  }
+
+  /* ---------------- MOBILE ---------------- */
+
   @media screen and (max-width: 768px) {
-    .quality-products__card {
-      flex: 0 0 {{ section.settings.card_width_mobile }}px;
+
+    .quality-products__viewport {
+      padding: 40px 0;
     }
-    .quality-products__slider-wrapper {
-      padding: 0 16px;
+
+    .quality-products__card {
+      width: 280px;
+      margin: 0 -10px;
+    }
+
+    .quality-products__card-inner {
+      padding: 16px;
+    }
+
+    .quality-products__title {
+      font-size: 36px;
+      line-height: 44px;
     }
   }
 </style>
@@ -148,100 +215,206 @@
   </div>
 
   {%- if section.blocks.size > 0 -%}
-  <div class="quality-products__slider-wrapper">
-    <div
-      class="quality-products__slider"
-      id="qp-slider-{{ section.id }}"
-      role="list"
-      aria-label="{{ section.settings.title | escape }}"
-    >
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'product_card' -%}
-        <div
-          class="quality-products__card"
-          role="listitem"
-          {{ block.shopify_attributes }}
-        >
-          <div class="quality-products__card-image-wrap quality-products__card-image-wrap--{{ block.settings.image_ratio }}">
-            {%- if block.settings.image != blank -%}
-              <img
-                src="{{ block.settings.image | image_url: width: 800 }}"
-                alt="{{ block.settings.image.alt | default: block.settings.heading | escape }}"
-                loading="lazy"
-                width="800"
-                height="800"
-              >
-            {%- else -%}
-              {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
-            {%- endif -%}
+
+     <div class="quality-products__slider-wrapper">
+
+          <div class="quality-products__viewport" id="qp-viewport-{{ section.id }}">
+
+          <div
+               class="quality-products__track"
+               id="qp-slider-{{ section.id }}"
+          >
+
+               {%- for block in section.blocks -%}
+
+               <div
+                    class="quality-products__card"
+                    data-index="{{ forloop.index0 }}"
+                    {{ block.shopify_attributes }}
+               >
+
+                    <div class="quality-products__card-inner">
+
+                    <div class="quality-products__card-image-wrap quality-products__card-image-wrap--{{ block.settings.image_ratio }}">
+
+                    {%- if block.settings.image != blank -%}
+                         <img
+                         src="{{ block.settings.image | image_url: width: 800 }}"
+                         alt="{{ block.settings.heading | escape }}"
+                         loading="lazy"
+                         width="800"
+                         height="800"
+                         >
+                    {%- endif -%}
+
+                    </div>
+
+                    <div class="quality-products__card-body">
+
+                    {% if block.settings.product_type != blank %}
+                         <p class="quality-products__card-type">
+                         {{ block.settings.product_type }}
+                         </p>
+                    {% endif %}
+
+                    {% if block.settings.heading != blank %}
+                         <h3 class="quality-products__card-heading">
+                         {{ block.settings.heading }}
+                         </h3>
+                    {% endif %}
+
+                    {% if block.settings.description != blank %}
+                         <div class="quality-products__card-desc">
+                         {{ block.settings.description }}
+                         </div>
+                    {% endif %}
+
+                    </div>
+
+                    </div>
+
+               </div>
+
+               {%- endfor -%}
+
           </div>
 
-          <div class="quality-products__card-body">
-            {%- if block.settings.product_type != blank -%}
-              <p class="quality-products__card-type">{{ block.settings.product_type }}</p>
-            {%- endif -%}
-            {%- if block.settings.heading != blank -%}
-              <h3 class="quality-products__card-heading">{{ block.settings.heading }}</h3>
-            {%- endif -%}
-            {%- if block.settings.description != blank -%}
-               <div class="quality-products__card-desc heading-16 text-[#7A7777]">
-                  {{ block.settings.description }}
-               </div>
-          {%- endif -%}  
           </div>
-        </div>
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
-  </div>
+
+     </div>
+
+
+
+
   {%- endif -%}
+  
 </section>
 
+
+
+
 <script>
-(function () {
-  const slider = document.getElementById('qp-slider-{{ section.id }}');
-  if (!slider) return;
+  
+  document.addEventListener("DOMContentLoaded", () => {
 
-  let isDragging = false;
-  let startX, scrollStart;
+  gsap.registerPlugin(Draggable);
 
-  function onPointerDown(e) {
-    isDragging = true;
-    startX = e.clientX ?? e.touches?.[0]?.clientX;
-    scrollStart = slider.scrollLeft;
-    slider.classList.add('is-dragging');
+  const viewport =
+    document.getElementById("qp-viewport-{{ section.id }}");
+
+  const track =
+    document.getElementById("qp-slider-{{ section.id }}");
+
+  const cards =
+    [...track.querySelectorAll(".quality-products__card")];
+
+  let activeIndex = 1;
+
+  function updateCards() {
+
+    cards.forEach(card => {
+      card.classList.remove(
+        "prev",
+        "active",
+        "next"
+      );
+    });
+
+    cards[activeIndex]?.classList.add("active");
+    cards[activeIndex - 1]?.classList.add("prev");
+    cards[activeIndex + 1]?.classList.add("next");
+
   }
 
-  function onPointerMove(e) {
-    if (!isDragging) return;
-    const x = e.clientX ?? e.touches?.[0]?.clientX;
-    const dx = x - startX;
-    slider.scrollLeft = scrollStart - dx;
-  }
+  function centerCard(index, animate = true) {
 
-  function onPointerUp() {
-    isDragging = false;
-    slider.classList.remove('is-dragging');
-  }
+    activeIndex = index;
 
-  // Mouse
-  slider.addEventListener('mousedown', onPointerDown);
-  window.addEventListener('mousemove', onPointerMove);
-  window.addEventListener('mouseup', onPointerUp);
+    const card = cards[index];
 
-  // Touch
-  slider.addEventListener('touchstart', onPointerDown, { passive: true });
-  slider.addEventListener('touchmove', onPointerMove, { passive: true });
-  slider.addEventListener('touchend', onPointerUp);
+    const viewportCenter =
+      viewport.offsetWidth / 2;
 
-  // Prevent click-through after drag
-  slider.addEventListener('click', function (e) {
-    if (Math.abs(slider.scrollLeft - scrollStart) > 5) {
-      e.preventDefault();
-      e.stopPropagation();
+    const cardCenter =
+      card.offsetLeft +
+      card.offsetWidth / 2;
+
+    const x =
+      viewportCenter - cardCenter;
+
+    if (animate) {
+      gsap.to(track,{
+        x,
+        duration:0.8,
+        ease:"power3.out"
+      });
+    } else {
+      gsap.set(track,{ x });
     }
-  }, true);
-})();
+
+    updateCards();
+  }
+
+  centerCard(activeIndex,false);
+
+  function getNearestCard() {
+
+  const viewportCenter =
+    viewport.getBoundingClientRect().left +
+    viewport.offsetWidth / 2;
+
+  let nearest = 0;
+  let smallest = Infinity;
+
+  cards.forEach((card, index) => {
+
+    const rect = card.getBoundingClientRect();
+
+    const center =
+      rect.left + rect.width / 2;
+
+    const distance =
+      Math.abs(center - viewportCenter);
+
+    if (distance < smallest) {
+      smallest = distance;
+      nearest = index;
+    }
+
+  });
+
+  return nearest;
+}
+
+  Draggable.create(track, {
+
+     type: "x",
+
+     onDrag() {
+
+     const nearest =
+          getNearestCard();
+
+     if (nearest !== activeIndex) {
+
+          activeIndex = nearest;
+
+          updateCards();
+
+     }
+
+     },
+
+     onDragEnd() {
+
+     centerCard(activeIndex);
+
+     }
+
+     });
+
+});
+
 </script>
 
 {% schema %}
