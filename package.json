@@ -1,0 +1,30 @@
+{
+  "dependencies": {
+    "@tailwindcss/cli": "^4.3.0",
+    "gsap": "^3.15.0",
+    "tailwindcss": "^4.3.0"
+  },
+  "name": "tentwenty-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"shopify theme dev -e development\" \"npx @tailwindcss/cli -i ./assets/tailwind-input.css -o ./assets/tailwind-output.css --watch\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anuj28saxena/tentwenty-assessment-test.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/anuj28saxena/tentwenty-assessment-test/issues"
+  },
+  "homepage": "https://github.com/anuj28saxena/tentwenty-assessment-test#readme",
+  "devDependencies": {
+    "concurrently": "^10.0.3"
+  }
+}

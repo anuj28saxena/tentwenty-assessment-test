@@ -48,6 +48,21 @@
     %}
 
     {% style %}
+    
+      @font-face {
+        font-family: 'Work Sans';
+        src: url('https://cdn.shopify.com/s/files/1/0994/8237/0359/files/WorkSans-VariableFont_wght.ttf?v=1780996573') format('truetype');
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      html,
+      body,
+      * {
+        font-family: 'Work Sans', sans-serif !important;
+      }
+
       {{ settings.type_body_font | font_face: font_display: 'swap' }}
       {{ body_font_bold | font_face: font_display: 'swap' }}
       {{ body_font_italic | font_face: font_display: 'swap' }}
@@ -98,6 +113,8 @@
         color: rgba(var(--color-foreground), 0.75);
         background-color: rgb(var(--color-background));
       }
+
+      
 
       :root {
         --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
@@ -255,7 +272,10 @@
       }
     {% endstyle %}
 
+
     {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ 'custom.css' | asset_url | stylesheet_tag }}
+    
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
     {%- if settings.cart_type == 'drawer' -%}
@@ -296,8 +316,18 @@
         document.documentElement.classList.add('shopify-design-mode');
       }
     </script>
-  </head>
+   
+   {{ 'tailwind-output.css' | asset_url | stylesheet_tag }}
 
+   <script src="{{ 'gsap.min.js' | asset_url }}" defer></script>
+   <script src="{{ 'Draggable.min.js' | asset_url }}" defer></script>
+   <script src="{{ 'inertia.min.js' | asset_url }}" defer></script>
+   <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/MotionPathPlugin.min.js" defer></script>
+   <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/Flip.min.js" defer></script>
+
+
+  </head>
+  
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}

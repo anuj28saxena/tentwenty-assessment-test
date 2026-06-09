@@ -1,0 +1,227 @@
+
+
+{%  style  %} 
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  min-height: 100%;
+  font-family: Roboto,sans-serif;
+  background: #e2e0e0;
+}
+
+.cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.main {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    height: 150vh;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    width: 100%;
+}
+
+    .cell {
+        position: absolute;
+        top: 50px;
+        left: 0;
+        width: 200px;
+        font-size: 26px;
+        font-weight: 500;
+        color: rgba(0,0,0,0.87);
+        color: rgba(0,0,0,0.92);
+        user-select: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: none;
+        height: 619px;
+        transform-origin: center bottom;
+        overflow:hidden;
+    }
+
+    .cell-content {}
+
+    .picker {
+     position: relative;
+     /* overflow: hidden; */
+     width: 80vw;
+     height: 100%;
+     /* border-radius: 2px; */
+     background-color: transparent;
+     box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),
+                    0 4px 5px 0 rgba(0,0,0,.14),
+                    0 1px 10px 0 rgba(0,0,0,.12);
+     }
+    
+{% endstyle %} 
+
+<div class="main">
+  <div id="picker" class="picker">
+    {% for block in section.blocks %}
+    <div class="cell" {{ block.shopify_attributes }}>
+         {% if block.settings.image!=blank %}
+          <img src="{{ block.settings.image | image_url }}" alt="Card Image" width="" height="" class="cell-content">
+         {% else %}
+          <div class="cell-content">Card {{ forloop.index }}</div>
+         {% endif %}
+          </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+<script>
+
+     document.addEventListener("DOMContentLoaded", () => {
+
+          console.clear();
+          gsap.defaults({
+          ease: "none"
+          });
+
+     var picker = document.querySelector(".picker");
+     var cells = document.querySelectorAll(".cell");
+     var proxy = document.createElement("div");
+
+     var cellWidth = 434;
+     var rotation = -70;
+
+     var numCells = cells.length;
+     var cellStep = 1 / numCells;
+     var wrapWidth = cellWidth * numCells;
+     var wrapIndex = gsap.utils.wrap(0, cells.length);
+
+     var baseTl = gsap.timeline({ paused: true });
+
+     gsap.set(picker, {
+     perspective: 1100,
+     width: wrapWidth - cellWidth
+     });
+
+     for (var i = 0; i < cells.length; i++) {  
+     initCell(cells[i], i);
+     }
+
+     var animation = gsap.timeline({ repeat: -1, paused: true })
+     .add(baseTl.tweenFromTo(1, 2)).progress(1);
+
+     var draggable = new Draggable(proxy, {  
+     allowContextMenu: true,  
+     type: "x",
+     trigger: picker,
+     inertia: true,
+     onDrag: updateProgress,
+     onThrowUpdate: updateProgress,
+     snap: { 
+          x: snapX
+     },
+     onDragEnd: function() {
+          const i = wrapIndex(-this.endX / wrapWidth * cells.length - 5);
+          console.log(i);
+     }
+     });
+
+     function snapX(x) {
+     return Math.round(x / cellWidth) * cellWidth;
+     }
+
+     function updateProgress() {  
+     let newProg = this.x / wrapWidth;
+     newProg = newProg - Math.floor(newProg);
+     animation.progress(newProg);
+     }
+
+     function initCell(element, index) {
+
+     gsap.set(element, {
+          width: cellWidth,
+          scale: 0.9,
+          opacity:1,
+          rotation: rotation,
+          x: -cellWidth
+     });
+
+     var tl = gsap.timeline({ repeat: 1 })
+          .to(element, 1, { x: "+=" + wrapWidth, rotation: -rotation}, 0)
+          .to(element, cellStep, {scale: 1,opacity:1, repeat: 1, yoyo: true }, 0.5 - cellStep)
+
+     baseTl.add(tl, i * -cellStep);
+     }
+
+  });
+
+</script>
+
+
+
+
+
+{% schema %}
+{
+  "name": "Circular Card Slider",
+  "tag": "section",
+  "class": "circular-card-slider",
+  "settings": [
+    {
+      "type": "text",
+      "id": "picker_id",
+      "label": "Picker ID",
+      "default": "picker"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Card Image"
+     }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Circular Card Slider",
+      "blocks": [
+        {
+          "type": "card"
+        },
+        {
+          "type": "card"
+        },
+        {
+          "type": "card"
+        },
+        {
+          "type": "card"
+        },
+        {
+          "type": "card"
+        },
+        {
+          "type": "card"
+        },
+        {
+          "type": "card"
+        },
+        {
+          "type": "card"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
