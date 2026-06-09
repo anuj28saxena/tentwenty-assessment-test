@@ -1,0 +1,537 @@
+{% comment %}
+  Quality Products Section — Dawn Theme
+  Header (title + description) + horizontal drag-to-scroll product blocks
+{% endcomment %}
+
+<style>
+  .quality-products {
+    background-color: {{ section.settings.background_color }};
+    padding: {{ section.settings.section_padding_top }}px 0 {{ section.settings.section_padding_bottom }}px;
+  }
+
+  .quality-products__header {
+    text-align: {{ section.settings.header_alignment }};
+    max-width: {{ section.settings.header_max_width }}px;
+    /* margin: 0 auto {{ section.settings.header_bottom_gap }}px; */
+    margin: 0 auto 100px;
+    padding: 0 ;
+  }
+  
+  .quality-products__title {
+      font-weight: 400;
+      font-size: 56px;
+      line-height: 72px;
+      letter-spacing: -1px;
+      text-align: center;
+     height: 92px;
+  }
+
+  .quality-products__slider-wrapper {
+    position: relative;
+    padding: 0 {{ section.settings.slider_side_padding }}px;
+  }
+
+  .quality-products__slider {
+    display: flex;
+    gap: {{ section.settings.card_gap }}px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    cursor: grab;
+    padding-bottom: 16px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .quality-products__slider::-webkit-scrollbar {
+    display: none;
+  }
+
+  .quality-products__slider.is-dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
+    user-select: none;
+  }
+
+  .quality-products__card {
+    flex: 0 0 {{ section.settings.card_width }}px;
+    scroll-snap-align: start;
+    background: {{ section.settings.card_background }};
+    border-radius: {{ section.settings.card_border_radius }}px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .quality-products__card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+  }
+
+  .quality-products__card-image-wrap {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .quality-products__card-image-wrap--square   { aspect-ratio: 1 / 1; }
+  .quality-products__card-image-wrap--portrait  { aspect-ratio: 3 / 4; }
+  .quality-products__card-image-wrap--landscape { aspect-ratio: 4 / 3; }
+  .quality-products__card-image-wrap--tall      { aspect-ratio: 2 / 3; }
+
+  .quality-products__card-image-wrap img,
+  .quality-products__card-image-wrap .placeholder-svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+
+  .quality-products__card:hover .quality-products__card-image-wrap img {
+    transform: scale(1.04);
+  }
+
+  .quality-products__card-body {
+    padding: {{ section.settings.card_inner_padding }}px;
+  }
+
+  .quality-products__card-type {
+    font-family: var(--font-body-family);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: {{ section.settings.card_type_color }};
+    margin: 0 0 8px;
+  }
+
+  .quality-products__card-heading {
+    font-family: var(--font-heading-family);
+    font-size: {{ section.settings.card_heading_size }}px;
+    font-weight: var(--font-heading-weight);
+    color: {{ section.settings.card_heading_color }};
+    margin: 0 0 10px;
+    line-height: 1.3;
+  }
+
+  .quality-products__card-desc {
+    font-family: var(--font-body-family);
+    font-size: {{ section.settings.card_desc_size }}px;
+    color: {{ section.settings.card_desc_color }};
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ── Mobile ── */
+  @media screen and (max-width: 768px) {
+    .quality-products__card {
+      flex: 0 0 {{ section.settings.card_width_mobile }}px;
+    }
+    .quality-products__slider-wrapper {
+      padding: 0 16px;
+    }
+  }
+</style>
+
+<section
+  class="quality-products"
+  id="quality-products-{{ section.id }}"
+>
+  {%- comment %} ── Section Header ── {% endcomment -%}
+  <div class="quality-products__header">
+    {%- if section.settings.title != blank -%}
+      <h2 class="quality-products__title heading-h2-56 ">{{ section.settings.title }}</h2>
+    {%- endif -%}
+    {%- if section.settings.description != blank -%}
+      <div class="quality-products__description heading-24 text-[#7A7777]">
+          {{ section.settings.description }}
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- if section.blocks.size > 0 -%}
+  <div class="quality-products__slider-wrapper">
+    <div
+      class="quality-products__slider"
+      id="qp-slider-{{ section.id }}"
+      role="list"
+      aria-label="{{ section.settings.title | escape }}"
+    >
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'product_card' -%}
+        <div
+          class="quality-products__card"
+          role="listitem"
+          {{ block.shopify_attributes }}
+        >
+          <div class="quality-products__card-image-wrap quality-products__card-image-wrap--{{ block.settings.image_ratio }}">
+            {%- if block.settings.image != blank -%}
+              <img
+                src="{{ block.settings.image | image_url: width: 800 }}"
+                alt="{{ block.settings.image.alt | default: block.settings.heading | escape }}"
+                loading="lazy"
+                width="800"
+                height="800"
+              >
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+          </div>
+
+          <div class="quality-products__card-body">
+            {%- if block.settings.product_type != blank -%}
+              <p class="quality-products__card-type">{{ block.settings.product_type }}</p>
+            {%- endif -%}
+            {%- if block.settings.heading != blank -%}
+              <h3 class="quality-products__card-heading">{{ block.settings.heading }}</h3>
+            {%- endif -%}
+            {%- if block.settings.description != blank -%}
+               <div class="quality-products__card-desc heading-16 text-[#7A7777]">
+                  {{ block.settings.description }}
+               </div>
+          {%- endif -%}  
+          </div>
+        </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+  {%- endif -%}
+</section>
+
+<script>
+(function () {
+  const slider = document.getElementById('qp-slider-{{ section.id }}');
+  if (!slider) return;
+
+  let isDragging = false;
+  let startX, scrollStart;
+
+  function onPointerDown(e) {
+    isDragging = true;
+    startX = e.clientX ?? e.touches?.[0]?.clientX;
+    scrollStart = slider.scrollLeft;
+    slider.classList.add('is-dragging');
+  }
+
+  function onPointerMove(e) {
+    if (!isDragging) return;
+    const x = e.clientX ?? e.touches?.[0]?.clientX;
+    const dx = x - startX;
+    slider.scrollLeft = scrollStart - dx;
+  }
+
+  function onPointerUp() {
+    isDragging = false;
+    slider.classList.remove('is-dragging');
+  }
+
+  // Mouse
+  slider.addEventListener('mousedown', onPointerDown);
+  window.addEventListener('mousemove', onPointerMove);
+  window.addEventListener('mouseup', onPointerUp);
+
+  // Touch
+  slider.addEventListener('touchstart', onPointerDown, { passive: true });
+  slider.addEventListener('touchmove', onPointerMove, { passive: true });
+  slider.addEventListener('touchend', onPointerUp);
+
+  // Prevent click-through after drag
+  slider.addEventListener('click', function (e) {
+    if (Math.abs(slider.scrollLeft - scrollStart) > 5) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }, true);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Drag Products Slider",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Quality Products"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header alignment",
+      "options": [
+        { "value": "left",   "label": "Left"   },
+        { "value": "center", "label": "Center" },
+        { "value": "right",  "label": "Right"  }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "header_max_width",
+      "label": "Header max width",
+      "min": 400,
+      "max": 900,
+      "step": 25,
+      "unit": "px",
+      "default": 750
+    },
+    {
+      "type": "range",
+      "id": "header_bottom_gap",
+      "label": "Space below header",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title font size",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "default": 44
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "label": "Description font size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description color",
+      "default": "#555555"
+    },
+    {
+      "type": "header",
+      "content": "Layout & Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "default": "#F5F0EB"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 150,
+      "step": 2,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 150,
+      "step": 2,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Slider"
+    },
+    {
+      "type": "range",
+      "id": "slider_side_padding",
+      "label": "Slider side padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Gap between cards",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_width",
+      "label": "Card width (desktop)",
+      "min": 180,
+      "max": 480,
+      "step": 10,
+      "unit": "px",
+      "default": 280
+    },
+    {
+      "type": "range",
+      "id": "card_width_mobile",
+      "label": "Card width (mobile)",
+      "min": 140,
+      "max": 320,
+      "step": 10,
+      "unit": "px",
+      "default": 220
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Card border radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "card_inner_padding",
+      "label": "Card inner padding",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Card Text Colors"
+    },
+    {
+      "type": "color",
+      "id": "card_type_color",
+      "label": "Product type label color",
+      "default": "#999999"
+    },
+    {
+      "type": "range",
+      "id": "card_heading_size",
+      "label": "Card heading size",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "card_heading_color",
+      "label": "Card heading color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "card_desc_size",
+      "label": "Card description size",
+      "min": 11,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "card_desc_color",
+      "label": "Card description color",
+      "default": "#666666"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_card",
+      "name": "Product Card",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Product Info"
+        },
+        {
+          "type": "text",
+          "id": "product_type",
+          "label": "Product type / label",
+          "info": "Small label shown above heading e.g. 'Gift Box', 'New Arrival'",
+          "default": "Gift Box"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Product Name"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Short description"
+        },
+        {
+          "type": "header",
+          "content": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Product image"
+        },
+        {
+          "type": "select",
+          "id": "image_ratio",
+          "label": "Image ratio",
+          "options": [
+            { "value": "square",    "label": "Square (1:1)"     },
+            { "value": "portrait",  "label": "Portrait (3:4)"   },
+            { "value": "landscape", "label": "Landscape (4:3)"  },
+            { "value": "tall",      "label": "Tall (2:3)"       }
+          ],
+          "default": "portrait"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Drag Products Slider",
+      "blocks": [
+        { "type": "product_card" },
+        { "type": "product_card" },
+        { "type": "product_card" },
+        { "type": "product_card" }
+      ]
+    }
+  ]
+}
+{% endschema %}
