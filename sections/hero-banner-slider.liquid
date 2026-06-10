@@ -1,12 +1,29 @@
 
 
+{%  style  %} 
 
-{%- comment -%}
-  Hero Slider Section — TenTwenty Style
-  - Full viewport GSAP-powered slider for Shopify Dawn theme
-  - Features: vertical clip-path wipe, Ken Burns zoom, counter, progress line, next-slide thumbnail
-  - File: sections/hero-slider.liquid
-{%- endcomment -%}
+.hero-slider__next-btn{
+  overflow:hidden;
+}
+
+.hero-slider__next-thumb-wrap{
+  position:relative;
+  overflow:hidden;
+}
+
+.thumb-transition-clone{
+  position:fixed;
+  z-index:99999;
+  overflow:hidden;
+  pointer-events:none;
+}
+
+.thumb-transition-clone img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+{% endstyle %} 
 
 {%- if section.blocks.size > 0 -%}
 <section
@@ -23,7 +40,6 @@
       {%- if next_index >= section.blocks.size -%}
         {%- assign next_index = 0 -%}
       {%- endif -%}
-      {%- assign next_block = section.blocks[next_index] -%}
 
       <div
         class="hero-slider__slide{% if is_first %} is-active{% endif %}"
@@ -69,15 +85,15 @@
         {%- comment -%} Slide text content {%- endcomment -%}
         <div class="hero-slider__content">
           {%- if block.settings.eyebrow != blank -%}
-            <p class="hero-slider__eyebrow">{{ block.settings.eyebrow | escape }}</p>
+            <p class="hero-slider__eyebrow text_animation_gsap_container">{{ block.settings.eyebrow | escape }}</p>
           {%- endif -%}
           {%- if block.settings.heading != blank -%}
-            <div class="hero-slider__heading">
+            <div class="hero-slider__heading text_animation_gsap_container">
                {{ block.settings.heading }}
             </div>
           {%- endif -%}
           {%- if block.settings.subheading != blank -%}
-            <p class="hero-slider__subheading">{{ block.settings.subheading | escape }}</p>
+            <p class="hero-slider__subheading text_animation_gsap_container">{{ block.settings.subheading | escape }}</p>
           {%- endif -%}
           {%- if block.settings.button_label != blank and block.settings.button_url != blank -%}
             <a
@@ -114,6 +130,23 @@
         />
         <div class="hero-slider__next-thumb-overlay"></div>
       </div>
+
+      {%- comment -%}
+        SVG progress ring — traces the perimeter clockwise as the slide timer runs.
+        96×96 viewBox, rect inset 1.5px so 3px stroke doesn't clip.
+        Perimeter = 2*(93+93) = 372. stroke-dashoffset animated by GSAP 372→0.
+        rotate(-90) shifts start point to top-right corner, drawing clockwise.
+      {%- endcomment -%}
+      <svg class="hero-slider__ring-svg" viewBox="0 0 96 96" aria-hidden="true" focusable="false">
+        <rect class="hero-slider__ring-track"
+          x="1.5" y="1.5" width="93" height="93"
+        />
+        <rect class="hero-slider__ring-fill"
+          x="1.5" y="1.5" width="93" height="93"
+          transform="rotate(-90 48 48)"
+        />
+      </svg>
+
       <span class="hero-slider__next-label">Next</span>
     </button>
 
@@ -144,6 +177,7 @@
   </button>
 
 </section>
+
 {%- endif -%}
 
 {%- comment -%} ── Styles ── {%- endcomment -%}
@@ -388,6 +422,39 @@ p.hero-slider__eyebrow {
     display: block !important;
 }
 
+
+/* ── SVG progress ring ──
+   Positioned absolutely outside the thumb box,
+   centred over the 80px box + 8px margin on each side = 96×96 total */
+.hero-slider__ring-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+    z-index: 5;
+}
+
+.hero-slider__ring-track {
+  fill: none;
+  stroke: unset;
+  stroke-width: 3;
+}
+
+.hero-slider__ring-fill {
+    fill: none;
+    stroke: #EEF4F9;
+    stroke-width: 8;
+    stroke-linecap: square;
+  /* dasharray/dashoffset set by JS to PERIMETER (372) */
+  stroke-dasharray: 372;
+  stroke-dashoffset: 372;
+}
+
+
+
 .hero-slider__next-label {
     text-transform: capitalize;
     color: rgba(255, 255, 255, 0.75);
@@ -405,9 +472,16 @@ p.hero-slider__eyebrow {
 
 /* ── Counter + progress ── */
 .hero-slider__counter-wrap {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 17px;
+}
+
+span.hero-slider__counter-current {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 110%;
+    letter-spacing: 0px;
 }
 
 .hero-slider__counter-current,
@@ -437,7 +511,7 @@ p.hero-slider__eyebrow {
 
 /* ── Progress track ── */
 .hero-slider__progress-track {
-  width: clamp(80px, 12vw, 160px);
+  width: 103px;
   height: 1px;
   background: rgba(255, 255, 255, 0.28);
   position: relative;
@@ -530,6 +604,9 @@ p.hero-slider__eyebrow {
 </style>
 
 {%- comment -%} ── JavaScript ── {%- endcomment -%}
+
+
+{%- comment -%} ── JavaScript ── {%- endcomment -%}
 <script>
 (function () {
   /* ── Wait for GSAP to be available (loaded in theme.liquid or below) ── */
@@ -543,17 +620,22 @@ p.hero-slider__eyebrow {
     /* ── DOM refs ── */
     const slides       = Array.from(sectionEl.querySelectorAll('.hero-slider__slide'));
     const thumbImg     = sectionEl.querySelector('.hero-slider__next-thumb');
-    const thumbLabel   = sectionEl.querySelector('.hero-slider__next-label');
+    const thumbWrapper = sectionEl.querySelector(".hero-slider__next-btn");
     const nextBtn      = sectionEl.querySelector('.hero-slider__next-btn');
     const progressFill = sectionEl.querySelector('.hero-slider__progress-fill');
     const counterCur   = sectionEl.querySelector('.hero-slider__counter-current');
+    const ringFill     = sectionEl.querySelector('.hero-slider__ring-fill');
+    const ringTrack    = sectionEl.querySelector('.hero-slider__ring-track');
     const SPEED        = parseInt(sectionEl.dataset.autoplaySpeed, 10) || 5000;
     const TRANSITION   = 1.1; // seconds for clip-path wipe
 
-    let current    = 0;
+    /* SVG ring perimeter: rect is 93×93, perimeter = 2*(93+93) = 372 */
+    const PERIMETER = 372;
+
+    let current     = 0;
     let isAnimating = false;
-    let autoTimer   = null;
     let progressTw  = null;
+    let ringTw      = null;
 
     const total = slides.length;
     const pad   = n => String(n + 1).padStart(2, '0');
@@ -565,6 +647,10 @@ p.hero-slider__eyebrow {
        INIT: hide all slides, show first
     ───────────────────────────────────────────── */
     function init() {
+      /* Set SVG ring dasharray to perimeter */
+      if (ringFill)  { ringFill.style.strokeDasharray = PERIMETER; ringFill.style.strokeDashoffset = PERIMETER; }
+      if (ringTrack) { ringTrack.style.strokeDasharray = PERIMETER; ringTrack.style.strokeDashoffset = 0; }
+
       slides.forEach((slide, i) => {
         const img = slide.querySelector('.hero-slider__bg-img');
         if (i === 0) {
@@ -604,37 +690,103 @@ p.hero-slider__eyebrow {
       gsap.set(nextImg, { scale: 1.0, transformOrigin: 'center center' });
 
       /* ── 3. Animate text OUT on current slide ── */
-      animateTextOut(prevSlide);
+
+      // animateTextOut(prevSlide);
+
+      gsap.to(
+        prevSlide.querySelectorAll(
+          '.hero-slider__eyebrow, .hero-slider__heading, .hero-slider__subheading, .hero-slider__cta'
+        ),
+        {
+          y:-80,
+          opacity:0,
+          stagger:0.05,
+          duration:0.6,
+          ease:"power4.in"
+        }
+      );
 
       /* ── 4. WIPE: clip-path inset bottom shrinks 100%→0% (curtain drops) ── */
-      gsap.to(nextSlide, {
-        'clip-path': 'inset(0 0 0% 0)',
-        duration: TRANSITION,
-        ease: 'power3.inOut',
-        onComplete: () => {
-          /* Clean up previous slide */
-          gsap.set(prevSlide, { 'clip-path': 'inset(0 0 100% 0)', zIndex: 1 });
-          prevSlide.classList.remove('is-active', 'is-entering');
 
-          /* Promote incoming */
-          nextSlide.classList.add('is-active');
-          nextSlide.classList.remove('is-entering');
-          gsap.set(nextSlide, { zIndex: 2 });
+     const thumbWrap =
+      sectionEl.querySelector(".hero-slider__next-thumb-wrap");
 
-          /* Text in */
-          animateTextIn(nextSlide, 0);
+      const thumbRect =
+      thumbWrap.getBoundingClientRect();
 
-          /* Ken Burns on new active */
-          startKenBurns(nextSlide, nextImg);
+      const clone = document.createElement("div");
 
-          current     = targetIdx;
-          isAnimating = false;
+      clone.classList.add("thumb-transition-clone");
+
+      clone.innerHTML = `
+      <img src="${thumbImg.src}">
+      `;
+
+      document.body.appendChild(clone);
+
+      gsap.set(clone,{
+        left:thumbRect.left,
+        top:thumbRect.top,
+        width:thumbRect.width,
+        height:thumbRect.height
+      });
+  
+      gsap.set(nextSlide,{
+        opacity:0,
+        scale:1.15,
+        zIndex:4
+      });
+
+      const tl = gsap.timeline({
+
+        onComplete() {
+
+          clone.remove();
+
+          gsap.set(prevSlide,{
+            opacity:0,
+            zIndex:1
+          });
+
+          gsap.set(nextSlide,{
+            clearProps:"all",
+            zIndex:2
+          });
+
+          current = targetIdx;
 
           updateCounter(current);
           updateThumb(nextSlideIndex(current));
+
           startProgress();
+
+          isAnimating = false;
         }
       });
+
+      tl.to(clone,{
+        left:0,
+        top:0,
+        width:"100vw",
+        height:"100vh",
+        duration:1.25,
+        ease:"power4.inOut"
+      },0);
+
+      tl.to(prevSlide,{
+        scale:0.92,
+        opacity:0,
+        duration:1.1,
+        ease:"power4.inOut"
+      },0);
+
+      tl.to(nextSlide,{
+        opacity:1,
+        scale:1,
+        duration:1.2,
+        ease:"power4.out"
+      },0.2);
+     
 
       nextSlide.classList.add('is-entering');
       prevSlide.classList.remove('is-active');
@@ -699,18 +851,33 @@ p.hero-slider__eyebrow {
     ───────────────────────────────────────────── */
     function startProgress() {
       if (progressTw) progressTw.kill();
+      if (ringTw) ringTw.kill();
+
+      const dur = SPEED / 1000;
+
       gsap.set(progressFill, { width: '0%' });
+      gsap.set(ringFill, { strokeDashoffset: PERIMETER });
+
       progressTw = gsap.to(progressFill, {
         width: '100%',
-        duration: SPEED / 1000,
+        duration: dur,
         ease: 'none',
         onComplete: () => goTo(nextSlideIndex(current))
+      });
+
+      /* Ring draws clockwise from top-right corner (rotate(-90) on rect) */
+      ringTw = gsap.to(ringFill, {
+        strokeDashoffset: 0,
+        duration: dur,
+        ease: 'none'
       });
     }
 
     function stopProgress() {
       if (progressTw) progressTw.kill();
+      if (ringTw) ringTw.kill();
       gsap.set(progressFill, { width: '0%' });
+      gsap.set(ringFill, { strokeDashoffset: PERIMETER });
     }
 
     /* ─────────────────────────────────────────────
@@ -764,6 +931,36 @@ p.hero-slider__eyebrow {
        EVENT LISTENERS
     ───────────────────────────────────────────── */
     if (nextBtn) {
+
+      // nextBtn.addEventListener("mouseenter",()=>{
+
+      //     gsap.to(".hero-slider__next-thumb",{
+      //       scale:1.12,
+      //       duration:.5,
+      //       ease:"power3.out"
+      //     });
+
+      //     gsap.to(".hero-slider__next-label",{
+      //       y:-5,
+      //       duration:.4
+      //     });
+
+      //   });
+
+      //  nextBtn.addEventListener("mouseleave",()=>{
+
+      //   gsap.to(".hero-slider__next-thumb",{
+      //     scale:1
+      //   });
+
+      //   gsap.to(".hero-slider__next-label",{
+      //     y:0
+      //   });
+
+      // });
+
+
+
       nextBtn.addEventListener('click', () => {
         if (!isAnimating) goTo(nextSlideIndex(current));
       });
@@ -786,8 +983,8 @@ p.hero-slider__eyebrow {
     }, { passive: true });
 
     /* Pause on hover */
-    sectionEl.addEventListener('mouseenter', () => { if (progressTw) progressTw.pause(); });
-    sectionEl.addEventListener('mouseleave', () => { if (progressTw) progressTw.resume(); });
+    sectionEl.addEventListener('mouseenter', () => { if (progressTw) progressTw.pause(); if (ringTw) ringTw.pause(); });
+    sectionEl.addEventListener('mouseleave', () => { if (progressTw) progressTw.resume(); if (ringTw) ringTw.resume(); });
 
     /* Keyboard navigation */
     sectionEl.addEventListener('keydown', e => {

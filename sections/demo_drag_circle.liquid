@@ -5,13 +5,6 @@
   box-sizing: border-box;
 }
 
-html, body {
-  height: 100%;
-  min-height: 100%;
-  font-family: Roboto,sans-serif;
-  background: #e2e0e0;
-}
-
 .cell img {
     width: 100%;
     height: 100%;
@@ -32,6 +25,7 @@ html, body {
     background: #FFFCFA;
      overflow: hidden;
     cursor: none;
+    max-height: 80vh;
 }
 
     .cell {
@@ -48,12 +42,20 @@ html, body {
         align-items: center;
         justify-content: center;
         background: none;
-        height: 619px;
+        /* height: 619px; */
+            height: 800px;
         transform-origin: center bottom;
         overflow:hidden;
     }
 
-    .cell-content {}
+    .draggable_slider_inner_wrapper {
+        width: 100%;
+        height: 100%;
+    }
+
+    .cell .cell-content-wrapper {
+      max-height: 600px !important;
+    }
 
     .picker {
       cursor: auto !important;
@@ -101,26 +103,93 @@ html, body {
     
 {% endstyle %} 
 
-<div class="main drag_slider_wrapper">
-  <div class="cursor-circle">
-    <span class="circle_inner_text">
-      Drag
-    </span>
+<div class="draggable_slider_outer_wrapper" style="background-color: {{ section.settings.section_bg_color }}; padding-top: {{ section.settings.section_padding_top }}px; padding-bottom: {{ section.settings.section_padding_bottom }}px;">
+
+  <div class="draggable_slider_inner_wrapper">
+
+  {% comment %} header elem {% endcomment %}
+
+      <div class="section_header_wrapper ">
+
+          {% if section.settings.section_heading != blank %}
+            <h2 class="drag_slider_header text_animation_gsap_container" style="max-width: {{ section.settings.header_max_width }}px; margin-left: auto; margin-right: auto;">
+              {{ section.settings.section_heading }}
+            </h2>
+          {% endif %}
+
+          {% if section.settings.section_description != blank %}
+            <div class="drag_slider_description text_animation_gsap_container" style="max-width: {{ section.settings.header_max_width }}px; margin-left: auto; margin-right: auto;">
+              {{ section.settings.section_description }}
+            </div>
+          {% endif %}
+
+      </div>
+
+      {% comment %} circular slider element {% endcomment %}
+
+       <div class="main drag_slider_wrapper page-width">
+        
+          <div class="cursor-circle">
+            <span class="circle_inner_text">
+              Drag
+            </span>
+          </div>
+
+          <div id="picker" class="picker">
+            {% for block in section.blocks %}
+                {% case block.type %}
+                {% when 'card' %}
+                    <div class="cell" data-card="card_{{ forloop.index }}" {{ block.shopify_attributes }}>
+
+                        <div class="cell-content-wrapper" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; max-width: 434px; ">
+
+                    
+                          {% if block.settings.image!=blank %}
+                            <img src="{{ block.settings.image | image_url }}" alt="Card Image" width="" height="" class="cell-content">
+                          {% else %}
+                            <div class="cell-content">Card {{ forloop.index }}</div>
+                          {% endif %}
+
+                        </div>
+                   
+                      </div>
+
+                {% endcase %}
+            {% endfor %}
+          </div>
+      </div>
+
+      {% comment %} card each block content {% endcomment %}
+
+      <div class="draggable_slider_card_content_wrapper">
+
+        <div class="page-width">
+
+          <div class="draggable_slider_content_inner_wrapper">
+
+            {% for block in section.blocks %}
+              {% case block.type %}
+                {% when 'card' %}
+                  <div class="card_content" data-card="card_{{ forloop.index }}" {{ block.shopify_attributes }}>
+                    <h3 class="card_title">{{ block.settings.card_title }}</h3>
+                    <div class="card_description">{{ block.settings.card_description }}</div>
+                  </div>
+              {% endcase %}
+            {% endfor %}  
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+   
   </div>
 
-  <div id="picker" class="picker">
-    {% for block in section.blocks %}
-    <div class="cell" {{ block.shopify_attributes }}>
-         {% if block.settings.image!=blank %}
-          <img src="{{ block.settings.image | image_url }}" alt="Card Image" width="" height="" class="cell-content">
-         {% else %}
-          <div class="cell-content">Card {{ forloop.index }}</div>
-         {% endif %}
-          </div>
-    {% endfor %}
-  </div>
 </div>
 
+     
 
 <script>
 
@@ -189,16 +258,18 @@ html, body {
 
     //  animation for cursor
 
-          console.clear();
+          // console.clear();
           gsap.defaults({
           ease: "none"
           });
+
+    
 
      var picker = document.querySelector(".picker");
      var cells = document.querySelectorAll(".cell");
      var proxy = document.createElement("div");
 
-     var cellWidth = 434;
+     var cellWidth = 600;
      var rotation = -70;
 
      var numCells = cells.length;
@@ -207,6 +278,8 @@ html, body {
      var wrapIndex = gsap.utils.wrap(0, cells.length);
 
      var baseTl = gsap.timeline({ paused: true });
+
+     
 
      gsap.set(picker, {
      perspective: 1100,
@@ -221,47 +294,220 @@ html, body {
      .add(baseTl.tweenFromTo(1, 2)).progress(1);
 
      var draggable = new Draggable(proxy, {  
-     allowContextMenu: true,  
-     type: "x",
-     trigger: picker,
-     inertia: true,
-     onDrag: updateProgress,
-     onThrowUpdate: updateProgress,
-     snap: { 
-          x: snapX
-     },
-     onDragEnd: function() {
-          const i = wrapIndex(-this.endX / wrapWidth * cells.length - 5);
-          console.log(i);
-     }
+        allowContextMenu: true,  
+        type: "x",
+        trigger: picker,
+        inertia: true,
+        onDrag: updateProgress,
+        onThrowUpdate: updateProgress,
+
+          onDragEnd: function() {
+
+            updateActiveSlide();
+
+            const i = wrapIndex(
+              -this.endX / wrapWidth * cells.length - 5
+            );
+
+            console.log(i);
+
+          },
+
+          onThrowComplete: function () {
+             console.log("THROW COMPLETE");
+            updateActiveSlide();
+          },
+
+
+        snap: { 
+              x: snapX
+        },
+       
      });
 
      function snapX(x) {
      return Math.round(x / cellWidth) * cellWidth;
      }
 
-     function updateProgress() {  
-     let newProg = this.x / wrapWidth;
-     newProg = newProg - Math.floor(newProg);
-     animation.progress(newProg);
-     }
+    function updateProgress() {
+        let newProg = this.x / wrapWidth;
+        newProg = newProg - Math.floor(newProg);
+
+        animation.progress(newProg);
+
+        // updateActiveSlide();
+      }
 
      function initCell(element, index) {
 
      gsap.set(element, {
           width: cellWidth,
+          y: 20,
           scale: 0.9,
-          opacity:1,
+          opacity:0.8,
           rotation: rotation,
           x: -cellWidth
      });
 
      var tl = gsap.timeline({ repeat: 1 })
           .to(element, 1, { x: "+=" + wrapWidth, rotation: -rotation}, 0)
-          .to(element, cellStep, {scale: 1,opacity:1, repeat: 1, yoyo: true }, 0.5 - cellStep)
+          .to(element, cellStep, {scale: 1,y: 0,opacity:1, repeat: 1, yoyo: true }, 0.5 - cellStep)
 
-     baseTl.add(tl, i * -cellStep);
+    //  baseTl.add(tl, i * -cellStep);
+    baseTl.add(tl, index * -cellStep);
+
+     requestAnimationFrame(() => {
+        updateActiveSlide();
+      });
+
      }
+
+    function updateActiveSlide() {
+
+  
+
+      let activeCell = null;
+      let minDistance = Infinity;
+
+      const pickerRect = picker.getBoundingClientRect();
+      const pickerCenter = pickerRect.left + pickerRect.width / 2;
+
+      cells.forEach(cell => {
+
+        const rect = cell.getBoundingClientRect();
+        const cellCenter = rect.left + rect.width / 2;
+
+        const distance = Math.abs(cellCenter - pickerCenter);
+
+        if (distance < minDistance) {
+          minDistance = distance;
+          activeCell = cell;
+        }
+
+      });
+
+        console.log(
+          "active image:",
+          activeCell?.dataset.card
+        );
+
+      //   console.log(
+      //   "content found:",
+      //   activeContent?.dataset.card
+      // );
+
+      // Remove old active classes
+      cells.forEach(cell => {
+        cell.classList.remove("active");
+      });
+
+      // document.querySelectorAll(".card_content").forEach(content => {
+      //   content.classList.remove("active-cell");
+      // });
+
+      if (activeCell) {
+
+        // Active image card
+        activeCell.classList.add("active");
+
+        // Get matching data-card
+        const cardId = activeCell.dataset.card;
+
+        // Find matching content card
+        const activeContent = document.querySelector(
+          `.card_content[data-card="${cardId}"]`
+        );
+
+        if (activeContent) {
+
+          showContent(cardId);
+
+        }
+
+      }
+
+    }
+
+    let currentContent = null;
+
+   
+    
+    
+    function showContent(cardId){
+
+         console.log("SHOW CONTENT:", cardId);
+
+          const nextContent = document.querySelector(
+            `.card_content[data-card="${cardId}"]`
+          );
+
+          if(!nextContent || nextContent === currentContent) return;
+
+          const prevContent = currentContent;
+
+          const tl = gsap.timeline();
+
+          if(prevContent){
+
+              tl.to(prevContent,{
+                  opacity:0,
+                  y:-15 ,
+                  duration:0.3,
+                  ease:"power2.out",
+                  onComplete(){
+                      prevContent.classList.remove("active-cell");
+                       gsap.set(prevContent,{
+                          clearProps:"all"
+                      });
+                  }
+              },0);
+          }
+
+          nextContent.classList.add("active-cell");
+
+          gsap.set(nextContent,{
+              opacity:1,
+              y:0,
+              clearProps:"opacity,transform"
+          });
+
+          tl.set(nextContent,{
+              opacity:1,
+              y:0
+          },0);
+
+          tl.fromTo(
+            nextContent.querySelector(".card_title"),
+            {
+              y:50,
+              opacity:0
+            },  
+            {
+              y:0,
+              opacity:1,
+              duration:0.7,
+              ease:"power4.out"
+            },
+            "+=0.2"
+          );
+
+          tl.fromTo(
+            nextContent.querySelector(".card_description"),
+            {
+              y:40,
+              opacity:0
+            },
+            {
+              y:0,
+              opacity:1,
+              duration:0.6,
+              ease:"power4.out"
+            },
+             "-=0.45"
+          );
+
+          currentContent = nextContent;
+      }
 
   });
 
@@ -277,12 +523,54 @@ html, body {
   "tag": "section",
   "class": "circular-card-slider",
   "settings": [
+     {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section Background Color",
+      "default": "#FFFCFA"
+    },
+     {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "header_max_width",
+      "label": "Header max width",
+      "min": 400,
+      "max": 900,
+      "step": 25,
+      "unit": "px",
+      "default": 750
+    },
     {
       "type": "text",
-      "id": "picker_id",
-      "label": "Picker ID",
-      "default": "picker"
+      "id": "section_heading",
+      "label": "Section Heading",
+      "default": "Quality Products"
+    },
+    {
+      "type": "richtext",
+      "id": "section_description",
+      "label": "Section Description"
     }
+   
   ],
   "blocks": [
     {
@@ -293,7 +581,19 @@ html, body {
           "type": "image_picker",
           "id": "image",
           "label": "Card Image"
-     }
+        },
+        {
+          "type": "text",
+          "id": "card_title",
+          "label": "Card Title",
+          "default": "Card Title"
+        },
+        {
+          "type": "richtext",
+          "id": "card_description",
+          "label": "Card Description",
+          "default": "<p>Card description</p>"
+        }
       ]
     }
   ],

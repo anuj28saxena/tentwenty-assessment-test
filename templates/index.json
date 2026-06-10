@@ -67,7 +67,7 @@
         "slide_LdxkDD": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/pexels-tim-mossholder-974314_1.png",
+            "image": "shopify://shop_images/70be9d47-dbdd-433b-850b-8636e7b98ddc.png",
             "eyebrow": "Welcome To TenTwenty Farms",
             "heading": "<h2>From our Farms <br/>to your hands</h2>",
             "subheading": "",
@@ -79,7 +79,7 @@
         "slide_TQcXKL": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/pexels-tim-mossholder-974314_1.png",
+            "image": "shopify://shop_images/ChatGPT_Image_Jun_11_2026_12_10_17_AM.png",
             "eyebrow": "Welcome To TenTwenty Farms",
             "heading": "<h2>From our Farms <br/>to your hands</h2>",
             "subheading": "",
@@ -91,7 +91,7 @@
         "slide_AYXJQA": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/pexels-tim-mossholder-974314_1.png",
+            "image": "shopify://shop_images/ChatGPT_Image_Jun_11_2026_12_09_37_AM.png",
             "eyebrow": "Welcome To TenTwenty Farms",
             "heading": "<h2>From our Farms <br/>to your hands</h2>",
             "subheading": "",
@@ -118,37 +118,49 @@
         "card_QGDDak": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/pexels-christian-diokno-3841338_1.png"
+            "image": "shopify://shop_images/pexels-christian-diokno-3841338_1.png",
+            "card_title": "Card Title",
+            "card_description": "<p>Card description</p>"
           }
         },
         "card_T6GkYB": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/image_41_2.png"
+            "image": "shopify://shop_images/image_41_2.png",
+            "card_title": "Card Title",
+            "card_description": "<p>Card description</p>"
           }
         },
         "card_KyiMUw": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/image_41.png"
+            "image": "shopify://shop_images/image_41.png",
+            "card_title": "Card Title",
+            "card_description": "<p>Card description</p>"
           }
         },
         "card_fKNEnB": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/pexels-christian-diokno-3841338_1.png"
+            "image": "shopify://shop_images/pexels-christian-diokno-3841338_1.png",
+            "card_title": "Card Title",
+            "card_description": "<p>Card description</p>"
           }
         },
         "card_8AjLPX": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/image_41_2.png"
+            "image": "shopify://shop_images/image_41_2.png",
+            "card_title": "Card Title",
+            "card_description": "<p>Card description</p>"
           }
         },
         "card_QBTHKY": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/image_41.png"
+            "image": "shopify://shop_images/image_41.png",
+            "card_title": "Card Title",
+            "card_description": "<p>Card description</p>"
           }
         }
       },
@@ -162,7 +174,12 @@
       ],
       "name": "Wheel Slider",
       "settings": {
-        "picker_id": "picker"
+        "section_bg_color": "#fffcfa",
+        "section_padding_top": 60,
+        "section_padding_bottom": 60,
+        "header_max_width": 750,
+        "section_heading": "Quality Products",
+        "section_description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>"
       }
     },
     "drag_products_slider_VG9fBB": {
