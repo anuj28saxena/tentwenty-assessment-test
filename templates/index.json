@@ -35,6 +35,7 @@
         "heading",
         "button"
       ],
+      "disabled": true,
       "settings": {
         "image_overlay_opacity": 40,
         "image_height": "large",
@@ -46,6 +47,122 @@
         "stack_images_on_mobile": false,
         "mobile_content_alignment": "center",
         "show_text_below": false
+      }
+    },
+    "hero_banner_slider_8M9m7n": {
+      "type": "hero-banner-slider",
+      "blocks": {
+        "slide_fgpd3J": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/pexels-tim-mossholder-974314_1.png",
+            "eyebrow": "Welcome To TenTwenty Farms",
+            "heading": "<h2>From our Farms <br/>to your hands</h2>",
+            "subheading": "",
+            "button_label": "",
+            "button_url": "",
+            "button_new_tab": false
+          }
+        },
+        "slide_LdxkDD": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/pexels-tim-mossholder-974314_1.png",
+            "eyebrow": "Welcome To TenTwenty Farms",
+            "heading": "<h2>From our Farms <br/>to your hands</h2>",
+            "subheading": "",
+            "button_label": "",
+            "button_url": "",
+            "button_new_tab": false
+          }
+        },
+        "slide_TQcXKL": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/pexels-tim-mossholder-974314_1.png",
+            "eyebrow": "Welcome To TenTwenty Farms",
+            "heading": "<h2>From our Farms <br/>to your hands</h2>",
+            "subheading": "",
+            "button_label": "",
+            "button_url": "",
+            "button_new_tab": false
+          }
+        },
+        "slide_AYXJQA": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/pexels-tim-mossholder-974314_1.png",
+            "eyebrow": "Welcome To TenTwenty Farms",
+            "heading": "<h2>From our Farms <br/>to your hands</h2>",
+            "subheading": "",
+            "button_label": "",
+            "button_url": "",
+            "button_new_tab": false
+          }
+        }
+      },
+      "block_order": [
+        "slide_fgpd3J",
+        "slide_LdxkDD",
+        "slide_TQcXKL",
+        "slide_AYXJQA"
+      ],
+      "name": "Hero Slider",
+      "settings": {
+        "autoplay_speed": 5000
+      }
+    },
+    "demo_drag_circle_trF6PG": {
+      "type": "demo_drag_circle",
+      "blocks": {
+        "card_QGDDak": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/pexels-christian-diokno-3841338_1.png"
+          }
+        },
+        "card_T6GkYB": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/image_41_2.png"
+          }
+        },
+        "card_KyiMUw": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/image_41.png"
+          }
+        },
+        "card_fKNEnB": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/pexels-christian-diokno-3841338_1.png"
+          }
+        },
+        "card_8AjLPX": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/image_41_2.png"
+          }
+        },
+        "card_QBTHKY": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/image_41.png"
+          }
+        }
+      },
+      "block_order": [
+        "card_QGDDak",
+        "card_T6GkYB",
+        "card_KyiMUw",
+        "card_fKNEnB",
+        "card_8AjLPX",
+        "card_QBTHKY"
+      ],
+      "name": "Wheel Slider",
+      "settings": {
+        "picker_id": "picker"
       }
     },
     "drag_products_slider_VG9fBB": {
@@ -98,6 +215,7 @@
         "product_card_yKCWCb",
         "product_card_MRhrMC"
       ],
+      "disabled": true,
       "name": "Drag Products Slider",
       "settings": {
         "title": "Quality Products",
@@ -129,6 +247,8 @@
   },
   "order": [
     "image_banner",
+    "hero_banner_slider_8M9m7n",
+    "demo_drag_circle_trF6PG",
     "drag_products_slider_VG9fBB"
   ]
 }

@@ -22,12 +22,16 @@ html, body {
     display: flex;
     position: relative;
     flex-direction: column;
-    height: 150vh;
+    height: 100vh;
     overflow: hidden;
     align-items: center;
     justify-content: center;
     margin: 0 auto;
     width: 100%;
+    min-height: 800px;
+    background: #FFFCFA;
+     overflow: hidden;
+    cursor: none;
 }
 
     .cell {
@@ -52,6 +56,7 @@ html, body {
     .cell-content {}
 
     .picker {
+      cursor: auto !important;
      position: relative;
      /* overflow: hidden; */
      width: 80vw;
@@ -61,11 +66,48 @@ html, body {
      box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),
                     0 4px 5px 0 rgba(0,0,0,.14),
                     0 1px 10px 0 rgba(0,0,0,.12);
-     }
+                  }
+               
+
+  
+.main.drag_slider_wrapper .cursor-circle {
+    position: fixed;
+    width: 99px;
+    height: 99px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    backdrop-filter: blur(4px);
+    pointer-events: none;
+    left: 0;
+    top: 0;
+    transform: translate(-50%, -50%) scale(0);
+    will-change: transform;
+    display: flex !important;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+}
+  
+
+.main.drag_slider_wrapper .circle_inner_text{
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0;
+  color: #000000;
+  display: block;
+}
     
 {% endstyle %} 
 
-<div class="main">
+<div class="main drag_slider_wrapper">
+  <div class="cursor-circle">
+    <span class="circle_inner_text">
+      Drag
+    </span>
+  </div>
+
   <div id="picker" class="picker">
     {% for block in section.blocks %}
     <div class="cell" {{ block.shopify_attributes }}>
@@ -82,7 +124,70 @@ html, body {
 
 <script>
 
-     document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", () => {
+
+    //  animation for cursor
+
+    gsap.registerPlugin();
+
+    const section = document.querySelector(".drag_slider_wrapper");
+    const cursor = document.querySelector(".drag_slider_wrapper .cursor-circle");
+
+    gsap.set(cursor, {
+      xPercent: -50,
+      yPercent: -50
+    });
+
+
+    let mouseX = 0;
+    let mouseY = 0;
+
+    // window.addEventListener("mousemove", (e) => {
+    //   mouseX = e.clientX;
+    //   mouseY = e.clientY;
+
+    //   gsap.to(cursor, {
+    //     x: mouseX,
+    //     y: mouseY,
+    //     duration: 0.3,
+    //     ease: "power3.out"
+    //   });
+    // });
+
+    const xTo = gsap.quickTo(cursor, "x", {
+      duration: 0.4,
+      ease: "power3"
+    });
+
+    const yTo = gsap.quickTo(cursor, "y", {
+      duration: 0.4,
+      ease: "power3"
+    });
+
+    window.addEventListener("mousemove", (e) => {
+      xTo(e.clientX);
+      yTo(e.clientY);
+    });
+
+    section.addEventListener("mouseenter", () => {
+      gsap.to(cursor, {
+        scale: 1,
+        duration: 0.35,
+        opacity: 1,
+        ease: "power3.out"
+      });
+    });
+
+      section.addEventListener("mouseleave", () => {
+        gsap.to(cursor, {
+          scale: 0.4,
+          opacity: 0,
+          duration: 0.5,
+          ease: "power3.out"
+        });
+      });
+
+    //  animation for cursor
 
           console.clear();
           gsap.defaults({
