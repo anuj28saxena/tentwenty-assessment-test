@@ -320,10 +320,15 @@
    {{ 'tailwind-output.css' | asset_url | stylesheet_tag }}
 
    <script src="{{ 'gsap.min.js' | asset_url }}" defer></script>
+   <script src="https://cdn.jsdelivr.net/npm/split-type@0.3.4/umd/index.min.js" defer></script>
+   <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js" defer></script>
+   <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/Flip.min.js" defer></script>
    <script src="{{ 'Draggable.min.js' | asset_url }}" defer></script>
    <script src="{{ 'inertia.min.js' | asset_url }}" defer></script>
    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/MotionPathPlugin.min.js" defer></script>
    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/Flip.min.js" defer></script>
+  
+   <script src="{{ 'custom.js' | asset_url }}" defer></script>
 
 
   </head>

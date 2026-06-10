@@ -115,3 +115,116 @@ svg.arrow-icon {
 }
 
 /* header css */
+
+
+
+/* drag slider css */
+
+.drag_slider_header{
+    font-weight: 400;
+    font-size: 56px;
+    line-height: 72px;
+    letter-spacing: -1px;
+    text-align: center;
+    color: #000000;
+    height: 92px;
+}
+
+.drag_slider_description{
+    font-size: 24px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+    color: #7A7777;
+}
+
+.section_header_wrapper{
+     display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 30px;     
+    /* margin-bottom: 100px;  */
+    width: 100%;
+    flex-wrap: wrap;
+    
+}
+
+.draggable_slider_content_inner_wrapper {
+    position: relative;
+    min-height: 120px;
+    overflow: hidden;
+}
+
+/* .draggable_slider_content_inner_wrapper .card_content {
+    width: inherit;
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: all 0.4s ease;
+    opacity:0;
+    visibility:hidden;
+} */
+
+.draggable_slider_content_inner_wrapper .card_content {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.draggable_slider_content_inner_wrapper .card_content.active-cell{
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transform: translateX(-50%) translateY(0);
+}
+
+/* .draggable_slider_content_inner_wrapper .card_content.active-cell{
+    position: relative;
+    opacity:1; 
+    visibility:visible;
+} */
+
+.draggable_slider_content_inner_wrapper .card_content .card_title{  
+    font-size: 36px;
+    line-height: 60px;
+    letter-spacing: -1px;
+    text-align: center;
+    color: #000000;
+}
+
+.draggable_slider_content_inner_wrapper .card_content .card_description>*{
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+    color: #7A7777;
+}
+
+
+
+
+
+/* drag slider css */
+
+
+
+/* text animation  */
+
+
+.text_animation_wrapper {
+  display: inline-block;
+  overflow: hidden;
+}
+
+/* text animation  */
