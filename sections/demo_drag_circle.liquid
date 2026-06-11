@@ -105,7 +105,7 @@
 
 <div class="draggable_slider_outer_wrapper" style="background-color: {{ section.settings.section_bg_color }}; padding-top: {{ section.settings.section_padding_top }}px; padding-bottom: {{ section.settings.section_padding_bottom }}px;">
 
-  <div class="draggable_slider_inner_wrapper">
+  <div class="draggable_slider_inner_wrapper page-width">
 
   {% comment %} header elem {% endcomment %}
 
@@ -270,7 +270,7 @@
      var proxy = document.createElement("div");
 
      var cellWidth = 600;
-     var rotation = -70;
+     var rotation = -30;
 
      var numCells = cells.length;
      var cellStep = 1 / numCells;
@@ -340,25 +340,34 @@
 
      function initCell(element, index) {
 
-     gsap.set(element, {
-          width: cellWidth,
-          y: 20,
-          scale: 0.9,
-          opacity:0.8,
-          rotation: rotation,
-          x: -cellWidth
-     });
+        // gsap.set(element, {
+        //       width: cellWidth,
+        //       y: -10,
+        //       scale: 1,
+        //       opacity:1,
+        //       rotation: rotation,
+        //       x: -cellWidth
+        // });
 
-     var tl = gsap.timeline({ repeat: 1 })
-          .to(element, 1, { x: "+=" + wrapWidth, rotation: -rotation}, 0)
-          .to(element, cellStep, {scale: 1,y: 0,opacity:1, repeat: 1, yoyo: true }, 0.5 - cellStep)
-
-    //  baseTl.add(tl, i * -cellStep);
-    baseTl.add(tl, index * -cellStep);
-
-     requestAnimationFrame(() => {
-        updateActiveSlide();
+        gsap.set(element, {
+        width: cellWidth,
+        y: -10,
+        scale: 1,
+        opacity: 1,
+        rotation: rotation,
+        x: -cellWidth
       });
+
+        var tl = gsap.timeline({ repeat: 1 })
+              .to(element, 1, { x: "+=" + wrapWidth, rotation: -rotation}, 0)
+              .to(element, cellStep, {scale: 1,y: -40,opacity:1, repeat: 1, yoyo: true }, 0.5 - cellStep)
+
+        //  baseTl.add(tl, i * -cellStep);
+        baseTl.add(tl, index * -cellStep);
+
+        requestAnimationFrame(() => {
+            updateActiveSlide();
+          });
 
      }
 

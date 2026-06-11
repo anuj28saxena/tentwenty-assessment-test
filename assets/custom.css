@@ -5,6 +5,10 @@ body,
   font-family: 'Work Sans', sans-serif !important;
 }
 
+.menu-drawer__utility-links {
+    display: none;
+}
+
 .header__menu-item.list-menu__item {
     font-weight: 400;
     font-size: 14px;
@@ -52,7 +56,7 @@ a.contact-btn.contact_us_btn_wrapper {
 }
 
 
-.header-wrapper.color-scheme-1.gradient{
+.header-wrapper{
     position: absolute;
     padding: 20px;
     max-width: 1440px;
@@ -80,6 +84,7 @@ header.cstm_header {
     display: flex;
     justify-content: space-between;
     padding: 32px 33px 33px 39px !important;
+    /* display: none; */
 }
 
 /* header css */
@@ -228,3 +233,354 @@ svg.arrow-icon {
 }
 
 /* text animation  */
+
+
+
+
+
+/* ---------------  hero banner css   ----------------- */
+
+/* ─────────────────────────────────────────────
+   HERO SLIDER — Base & Layout
+───────────────────────────────────────────── */
+.hero-slider {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  min-height: 900px;
+  overflow: hidden;
+  background: #0a0a0a;
+  user-select: none;
+}
+
+/* ── Track & Slides ── */
+.hero-slider__track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+
+.hero-slider {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-slider__slide {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-slider__bg-wrap,
+.hero-slider__clip,
+.hero-slider__bg-scale {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-slider__clip {
+  overflow: hidden;
+}
+
+.hero-slider__bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.word {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.hero-slider__clip{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+
+.hero-slider__bg-scale{
+  width:100%;
+  height:100%;
+}
+
+.hero-slider__bg-img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+
+
+/* ─────────────────────────────────────────────
+   CONTROLS BAR — bottom left
+───────────────────────────────────────────── */
+.hero-slider__controls {
+    position: absolute;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 33px;
+    left: 135px;
+    bottom: 67px;
+    width: 100%;
+    max-width: 345px;
+    height: 100%;
+    max-height: 141px;
+    justify-content: space-between;
+}
+
+/* ── Next thumbnail button ── */
+.hero-slider__next-btn {
+    display: flex;
+    gap: 0;
+    background: none;
+    cursor: pointer;
+    color: #fff;
+    position: relative;
+    border: 1px solid #eef4f94f;
+    padding: 22px;
+    align-items: center;
+    aspect-ratio: 1/1;
+    min-width: 138px;
+    width: 100%;
+    max-width: 138px;
+}
+
+.hero-slider__next-thumb-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    flex-shrink: 0;
+    transition: border-color 0.25s ease;
+    aspect-ratio: 1/1;
+    min-width: 93px;
+    max-width: 93px;
+}
+
+.hero-slider__next-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.45s ease;
+}
+
+
+
+.hero-slider__next-thumb-overlay {
+    position: absolute;
+    inset: 0;
+    background: #221F2033;
+    pointer-events: none;
+    display: block !important;
+}
+
+
+.hero-slider__ring-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 5;
+}
+
+.hero-slider__ring-track {
+  fill: none;
+  stroke: unset;
+  stroke-width: 1;
+}
+
+.hero-slider__ring-fill {
+    fill: none;
+    stroke: #EEF4F9;
+    stroke-width: 8;
+    stroke-linecap: square;
+  stroke-dasharray: 372;
+  stroke-dashoffset: 372;
+}
+
+
+
+.hero-slider__next-label {
+    text-transform: capitalize;
+    color: rgba(255, 255, 255, 0.75);
+    display: block;
+    /* display: none; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 110%;
+    letter-spacing: 0px;
+}
+
+.hero-slider__counter-wrap {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+}
+
+span.hero-slider__counter-current {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 110%;
+    letter-spacing: 0px;
+}
+
+.hero-slider__counter-current,
+.hero-slider__counter-total {
+  
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.06em;
+  min-width: 1.6rem;
+  display: block;
+  overflow: hidden;
+  height: 1.2em;
+  line-height: 1.2em;
+}
+
+.hero-slider__counter-current {
+  text-align: right;
+}
+
+.hero-slider__digit-wrap {
+  display: inline-block;
+  overflow: hidden;
+  height: 1.2em;
+  vertical-align: bottom;
+}
+
+.hero-slider__progress-track {
+  width: 103px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.28);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-slider__progress-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0%;
+  background: rgba(255, 255, 255, 0.88);
+}
+
+
+
+/* ── Text Content ── */
+.hero-slider__content {
+    position: absolute;
+    left: 135px;
+    z-index: 5;
+    max-width: min(756px, 80vw);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+p.hero-slider__eyebrow {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    letter-spacing: 0px;
+    text-transform: capitalize;
+    color: #EEF4F9;
+    will-change: transform, opacity;
+}
+
+.hero-slider__heading>* {
+    font-weight: 400;
+    font-size: 64px;
+    line-height: 100%;
+    letter-spacing: 0px;
+    text-transform: capitalize;
+     margin: 0;
+    will-change: transform, opacity;
+    color: #EEF4F9;
+}
+
+.hero-slider__subheading {
+ 
+  font-weight: 400;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.72);
+  margin: 0;
+  max-width: 480px;
+  will-change: transform, opacity;
+}
+
+.hero-slider__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+  padding: 0.75rem 1.75rem;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  transition: background 0.28s ease, border-color 0.28s ease;
+  will-change: transform, opacity;
+}
+
+
+
+.hero-slider__progress-fill {
+    display: block !important;
+}
+
+
+.hero-slider__counter-wrap{
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+
+
+.hero-slider__progress-fill{
+  width:100%;
+  height:100%;
+  background:#fff;
+
+  transform:scaleX(0);
+  transform-origin:left center;
+
+  will-change:transform;
+}
+
+
+.hero-slider__ring-svg{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+
+.hero-slider__ring-track{
+  fill:none;
+  /* stroke:rgba(255,255,255,.2); */
+  /* stroke-width: 1; */
+}
+
+.hero-slider__ring-fill{
+  fill:none;
+  stroke:#fff;
+  stroke-width: 5;
+  stroke-linecap: unset;
+}
+
+/* ---------------  hero banner css   ----------------- */
