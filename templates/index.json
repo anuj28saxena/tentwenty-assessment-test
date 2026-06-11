@@ -9,46 +9,6 @@
  */
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
-      "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
-          }
-        },
-        "button": {
-          "type": "buttons",
-          "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading",
-        "button"
-      ],
-      "disabled": true,
-      "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "image_behavior": "none",
-        "desktop_content_position": "bottom-center",
-        "desktop_content_alignment": "center",
-        "show_text_box": false,
-        "color_scheme": "scheme-3",
-        "stack_images_on_mobile": false,
-        "mobile_content_alignment": "center",
-        "show_text_below": false
-      }
-    },
     "hero_banner_slider_8M9m7n": {
       "type": "hero-banner-slider",
       "blocks": {
@@ -119,48 +79,48 @@
           "type": "card",
           "settings": {
             "image": "shopify://shop_images/pexels-christian-diokno-3841338_1.png",
-            "card_title": "Card Title",
-            "card_description": "<p>Card description</p>"
+            "card_title": "Client 1",
+            "card_description": "<p>Dubai, United Arab Emirates</p>"
           }
         },
         "card_T6GkYB": {
           "type": "card",
           "settings": {
             "image": "shopify://shop_images/image_41_2.png",
-            "card_title": "Card Title",
-            "card_description": "<p>Card description</p>"
+            "card_title": "Client 2",
+            "card_description": "<p>Dubai, United Arab Emirates</p>"
           }
         },
         "card_KyiMUw": {
           "type": "card",
           "settings": {
             "image": "shopify://shop_images/image_41.png",
-            "card_title": "Card Title",
-            "card_description": "<p>Card description</p>"
+            "card_title": "Client 3",
+            "card_description": "<p>Dubai, United Arab Emirates</p>"
           }
         },
         "card_fKNEnB": {
           "type": "card",
           "settings": {
             "image": "shopify://shop_images/pexels-christian-diokno-3841338_1.png",
-            "card_title": "Card Title",
-            "card_description": "<p>Card description</p>"
+            "card_title": "Client 4",
+            "card_description": "<p>Dubai, United Arab Emirates</p>"
           }
         },
         "card_8AjLPX": {
           "type": "card",
           "settings": {
             "image": "shopify://shop_images/image_41_2.png",
-            "card_title": "Card Title",
-            "card_description": "<p>Card description</p>"
+            "card_title": "Client 5",
+            "card_description": "<p>Dubai, United Arab Emirates</p>"
           }
         },
         "card_QBTHKY": {
           "type": "card",
           "settings": {
             "image": "shopify://shop_images/image_41.png",
-            "card_title": "Card Title",
-            "card_description": "<p>Card description</p>"
+            "card_title": "Client 6",
+            "card_description": "<p>Dubai, United Arab Emirates</p>"
           }
         }
       },
@@ -175,97 +135,16 @@
       "name": "Wheel Slider",
       "settings": {
         "section_bg_color": "#fffcfa",
-        "section_padding_top": 60,
+        "section_padding_top": 154,
         "section_padding_bottom": 60,
         "header_max_width": 750,
         "section_heading": "Quality Products",
         "section_description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>"
       }
-    },
-    "drag_products_slider_VG9fBB": {
-      "type": "drag-products-slider",
-      "blocks": {
-        "product_card_p9NKxq": {
-          "type": "product_card",
-          "settings": {
-            "product_type": "",
-            "heading": "Client 1",
-            "description": "<p>Dubai, United Arab Emirates</p>",
-            "image": "shopify://shop_images/image_41.png",
-            "image_ratio": "portrait"
-          }
-        },
-        "product_card_HaUNTU": {
-          "type": "product_card",
-          "settings": {
-            "product_type": "",
-            "heading": "Client 2",
-            "description": "<p>Dubai, United Arab Emirates</p>",
-            "image": "shopify://shop_images/pexels-christian-diokno-3841338_1.png",
-            "image_ratio": "portrait"
-          }
-        },
-        "product_card_yKCWCb": {
-          "type": "product_card",
-          "settings": {
-            "product_type": "",
-            "heading": "Client 3",
-            "description": "<p>Dubai, United Arab Emirates</p>",
-            "image": "shopify://shop_images/image_41_2.png",
-            "image_ratio": "portrait"
-          }
-        },
-        "product_card_MRhrMC": {
-          "type": "product_card",
-          "settings": {
-            "product_type": "",
-            "heading": "Client 4",
-            "description": "<p>Dubai, United Arab Emirates</p>",
-            "image": "shopify://shop_images/image_41.png",
-            "image_ratio": "portrait"
-          }
-        }
-      },
-      "block_order": [
-        "product_card_p9NKxq",
-        "product_card_HaUNTU",
-        "product_card_yKCWCb",
-        "product_card_MRhrMC"
-      ],
-      "disabled": true,
-      "name": "Drag Products Slider",
-      "settings": {
-        "title": "Quality Products",
-        "description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>",
-        "header_alignment": "center",
-        "header_max_width": 750,
-        "header_bottom_gap": 30,
-        "title_size": 56,
-        "title_color": "#000000",
-        "description_size": 20,
-        "description_color": "#7a7777",
-        "background_color": "#fffcfa",
-        "section_padding_top": 120,
-        "section_padding_bottom": 120,
-        "slider_side_padding": 24,
-        "card_gap": 20,
-        "card_width": 280,
-        "card_width_mobile": 220,
-        "card_background": "#ffffff",
-        "card_border_radius": 8,
-        "card_inner_padding": 16,
-        "card_type_color": "#999999",
-        "card_heading_size": 18,
-        "card_heading_color": "#1a1a1a",
-        "card_desc_size": 13,
-        "card_desc_color": "#666666"
-      }
     }
   },
   "order": [
-    "image_banner",
     "hero_banner_slider_8M9m7n",
-    "demo_drag_circle_trF6PG",
-    "drag_products_slider_VG9fBB"
+    "demo_drag_circle_trF6PG"
   ]
 }
