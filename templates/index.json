@@ -17,7 +17,7 @@
           "settings": {
             "image": "shopify://shop_images/pexels-tim-mossholder-974314_1.png",
             "eyebrow": "Welcome To TenTwenty Farms",
-            "heading": "<h2>From our Farms <br/>to your hands</h2>",
+            "heading": "<h2>From our Farms<br/>to your hands</h2>",
             "subheading": "",
             "button_label": "",
             "button_url": "",
@@ -29,7 +29,7 @@
           "settings": {
             "image": "shopify://shop_images/70be9d47-dbdd-433b-850b-8636e7b98ddc.png",
             "eyebrow": "Welcome To TenTwenty Farms",
-            "heading": "<h2>From our Farms <br/>to your hands</h2>",
+            "heading": "<h2>From our Farms<br/>to your hands</h2>",
             "subheading": "",
             "button_label": "",
             "button_url": "",
@@ -41,7 +41,7 @@
           "settings": {
             "image": "shopify://shop_images/ChatGPT_Image_Jun_11_2026_12_10_17_AM.png",
             "eyebrow": "Welcome To TenTwenty Farms",
-            "heading": "<h2>From our Farms <br/>to your hands</h2>",
+            "heading": "<h2>From our Farms<br/>to your hands</h2>",
             "subheading": "",
             "button_label": "",
             "button_url": "",
@@ -53,7 +53,7 @@
           "settings": {
             "image": "shopify://shop_images/ChatGPT_Image_Jun_11_2026_12_09_37_AM.png",
             "eyebrow": "Welcome To TenTwenty Farms",
-            "heading": "<h2>From our Farms <br/>to your hands</h2>",
+            "heading": "<h2>From our Farms<br/>to your hands</h2>",
             "subheading": "",
             "button_label": "",
             "button_url": "",
@@ -73,7 +73,7 @@
       }
     },
     "demo_drag_circle_trF6PG": {
-      "type": "demo_drag_circle",
+      "type": "draggable_card_slider",
       "blocks": {
         "card_QGDDak": {
           "type": "card",
